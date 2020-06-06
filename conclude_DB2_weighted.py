@@ -55,8 +55,9 @@ start_time2 = '20190605'
 
 # 创建汇总表模板
 # demo = ts.get_hist_data('600000', start='2019-06-05')
-demo = ts.pro_bar('600000.SH', adj='hfq', start_date=start_time)
-demo = demo.sort_values('trade_date', ascending=True)
+demo1 = ts.pro_bar('600000.SH', adj='qfq', start_date=start_time)
+demo = demo1.sort_values('trade_date', ascending=True)
+demo.index = demo1.index
 demoT = demo['trade_date'].T
 dateName = demoT.tolist()
 # dateName.insert(0, "code")
@@ -85,21 +86,22 @@ for sheet in sheets:
         # 读入日指数
         # df = ts.get_hist_data(code, start='2017-01-01')
         # 读入复权指数
-        df = ts.pro_bar(code, adj='hfq', start_date='2017-01-01')
+        df1 = ts.pro_bar(code, adj='hfq', start_date='2017-01-01')
         # 如果数据为空
-        if df is None:
+        if df1 is None:
             print("股票代码", end='')
             print(code, end='')
             print("的查询结果为空")
             continue
         # 数据量小于21
-        if len(df) < 21:
+        if len(df1) < 21:
             print("股票代码", end='')
             print(code, end='')
             print("的记录数量小于21，不予计算 DB2")
             continue
         # 计算 DB1 和 DB2
-        df = df.sort_values('trade_date', ascending=True)
+        df = df1.sort_values('trade_date', ascending=True)
+        df.index = df1.index
         try:
             df['MIN_21'], df['MAX_21'], df['DB1'] = calculateDB1(df.high, df.low, df.close, N, N2, [])
             df['DB2'] = calculateDB2(df['DB1'], N, N2, [])
