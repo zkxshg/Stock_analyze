@@ -1,3 +1,4 @@
+# 计算沪深个股DB2并保存为 代码.csv
 import pandas as pd
 import xlrd
 import tushare as ts
