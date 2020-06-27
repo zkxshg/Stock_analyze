@@ -5,7 +5,7 @@ import numpy as np
 import os
 import talib
 
-token = "4e7c6ba0322529f5557dbffd530b51db73f4d87ea7a46ecffc7d18f1"
+token = ""
 ts.set_token(token)
 pro = ts.pro_api()
 
